@@ -10,7 +10,7 @@ exclude = ["/demo", "/gen", "/syntax", "/third-party", "/tools/buck/prelude"]
 homepage = "https://cxx.rs"
 keywords = ["ffi", "c++"]
 license = "MIT OR Apache-2.0"
-links = "cxxbridge1"
+# links = "cxxbridge1"
 repository = "https://github.com/dtolnay/cxx"
 rust-version = "1.73"
 
@@ -25,7 +25,7 @@ std = ["alloc", "foldhash/std"]
 [dependencies]
 cxxbridge-macro = { version = "=1.0.137", path = "macro" }
 foldhash = { version = "0.1", default-features = false }
-link-cplusplus = "1.0.9"
+# link-cplusplus = "1.0.9"
 
 [build-dependencies]
 cc = "1.0.83"
