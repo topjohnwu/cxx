@@ -2,11 +2,11 @@
 #![allow(unexpected_cfgs)]
 
 use std::env;
-use std::path::{Path, PathBuf};
+// use std::path::{Path, PathBuf};
 use std::process::Command;
 
 fn main() {
-    let manifest_dir_opt = env::var_os("CARGO_MANIFEST_DIR").map(PathBuf::from);
+    /* let manifest_dir_opt = env::var_os("CARGO_MANIFEST_DIR").map(PathBuf::from);
     let manifest_dir = manifest_dir_opt.as_deref().unwrap_or(Path::new(""));
 
     cc::Build::new()
@@ -24,7 +24,7 @@ fn main() {
     if let Some(manifest_dir) = &manifest_dir_opt {
         let cxx_h = manifest_dir.join("include").join("cxx.h");
         println!("cargo:HEADER={}", cxx_h.to_string_lossy());
-    }
+    } */
 
     if let Some(rustc) = rustc_version() {
         if rustc.minor >= 80 {
