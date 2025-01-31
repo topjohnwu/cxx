@@ -13,7 +13,7 @@ pub(crate) fn expand_struct(
 
     for derive in &strct.derives {
         let span = derive.span;
-        match derive.what {
+        match &derive.what {
             Trait::Copy => expanded.extend(struct_copy(strct, span)),
             Trait::Clone => expanded.extend(struct_clone(strct, span)),
             Trait::Debug => expanded.extend(struct_debug(strct, span)),
@@ -26,6 +26,7 @@ pub(crate) fn expand_struct(
             Trait::PartialOrd => expanded.extend(struct_partial_ord(strct, span)),
             Trait::Serialize => traits.push(quote_spanned!(span=> ::serde::Serialize)),
             Trait::Deserialize => traits.push(quote_spanned!(span=> ::serde::Deserialize)),
+            Trait::Other(ident) => traits.push(quote_spanned!(span=> super::#ident)),
         }
     }
 
@@ -48,7 +49,7 @@ pub(crate) fn expand_enum(enm: &Enum, actual_derives: &mut Option<TokenStream>) 
 
     for derive in &enm.derives {
         let span = derive.span;
-        match derive.what {
+        match &derive.what {
             Trait::Copy => {
                 expanded.extend(enum_copy(enm, span));
                 has_copy = true;
@@ -73,6 +74,7 @@ pub(crate) fn expand_enum(enm: &Enum, actual_derives: &mut Option<TokenStream>) 
             Trait::PartialOrd => expanded.extend(enum_partial_ord(enm, span)),
             Trait::Serialize => traits.push(quote_spanned!(span=> ::serde::Serialize)),
             Trait::Deserialize => traits.push(quote_spanned!(span=> ::serde::Deserialize)),
+            Trait::Other(ident) => traits.push(quote_spanned!(span=> super::#ident)),
         }
     }
 
