@@ -1,13 +1,13 @@
 use proc_macro2::{Ident, Span};
 use std::fmt::{self, Display};
 
-#[derive(Copy, Clone)]
+#[derive(Clone)]
 pub(crate) struct Derive {
     pub what: Trait,
     pub span: Span,
 }
 
-#[derive(Copy, Clone, PartialEq)]
+#[derive(Clone, PartialEq)]
 pub(crate) enum Trait {
     BitAnd,
     BitOr,
@@ -24,6 +24,7 @@ pub(crate) enum Trait {
     PartialOrd,
     Serialize,
     Deserialize,
+    Other(Ident),
 }
 
 impl Derive {
@@ -44,7 +45,7 @@ impl Derive {
             "PartialOrd" => Trait::PartialOrd,
             "Serialize" => Trait::Serialize,
             "Deserialize" => Trait::Deserialize,
-            _ => return None,
+            _ => Trait::Other(ident.clone()),
         };
         let span = ident.span();
         Some(Derive { what, span })
@@ -75,6 +76,7 @@ impl AsRef<str> for Trait {
             Trait::PartialOrd => "PartialOrd",
             Trait::Serialize => "Serialize",
             Trait::Deserialize => "Deserialize",
+            Trait::Other(_) => "Other",
         }
     }
 }

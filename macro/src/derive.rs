@@ -13,7 +13,7 @@ pub(crate) fn expand_struct(
 
     for derive in &strct.derives {
         let span = derive.span;
-        match derive.what {
+        match &derive.what {
             Trait::BitAnd => unreachable!(),
             Trait::BitOr => unreachable!(),
             Trait::BitXor => unreachable!(),
@@ -29,6 +29,7 @@ pub(crate) fn expand_struct(
             Trait::PartialOrd => expanded.extend(struct_partial_ord(strct, span)),
             Trait::Serialize => traits.push(quote_spanned!(span=> ::serde::Serialize)),
             Trait::Deserialize => traits.push(quote_spanned!(span=> ::serde::Deserialize)),
+            Trait::Other(ident) => traits.push(quote_spanned!(span=> super::#ident)),
         }
     }
 
@@ -51,7 +52,7 @@ pub(crate) fn expand_enum(enm: &Enum, actual_derives: &mut Option<TokenStream>) 
 
     for derive in &enm.derives {
         let span = derive.span;
-        match derive.what {
+        match &derive.what {
             Trait::BitAnd => expanded.extend(enum_bitand(enm, span)),
             Trait::BitOr => expanded.extend(enum_bitor(enm, span)),
             Trait::BitXor => expanded.extend(enum_bitxor(enm, span)),
@@ -79,6 +80,7 @@ pub(crate) fn expand_enum(enm: &Enum, actual_derives: &mut Option<TokenStream>) 
             Trait::PartialOrd => expanded.extend(enum_partial_ord(enm, span)),
             Trait::Serialize => traits.push(quote_spanned!(span=> ::serde::Serialize)),
             Trait::Deserialize => traits.push(quote_spanned!(span=> ::serde::Deserialize)),
+            Trait::Other(ident) => traits.push(quote_spanned!(span=> super::#ident)),
         }
     }
 

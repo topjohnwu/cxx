@@ -354,7 +354,8 @@ fn check_api_struct(cx: &mut Check, strct: &Struct) {
             | Trait::PartialEq
             | Trait::PartialOrd
             | Trait::Serialize
-            | Trait::Deserialize => {}
+            | Trait::Deserialize
+            | Trait::Other(_) => {}
             Trait::BitAnd | Trait::BitOr | Trait::BitXor => {
                 let msg = format!(
                     "derive({}) is currently only supported on enums, not structs",
@@ -409,7 +410,8 @@ fn check_api_enum(cx: &mut Check, enm: &Enum) {
             | Trait::PartialEq
             | Trait::PartialOrd
             | Trait::Serialize
-            | Trait::Deserialize => {}
+            | Trait::Deserialize
+            | Trait::Other(_) => {}
             Trait::Default => {
                 let default_variants = enm.variants.iter().filter(|v| v.default).count();
                 if default_variants != 1 {
